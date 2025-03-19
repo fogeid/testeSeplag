@@ -15,6 +15,7 @@ public class Cidade implements Serializable {
     private Long cidIdd;
 
     private String cidNome;
+
     private String cidUf;
 
     public Cidade() {

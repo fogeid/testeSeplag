@@ -17,9 +17,13 @@ public class Pessoa implements Serializable {
     private Long pesId;
 
     private String pesNome;
+
     private LocalDate pesDataNascimento;
+
     private String pesSexo;
+
     private String pesMae;
+
     private String pesPai;
 
     @OneToMany(mappedBy = "pessoa")

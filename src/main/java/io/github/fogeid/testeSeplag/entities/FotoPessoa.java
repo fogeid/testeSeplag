@@ -14,6 +14,7 @@ public class FotoPessoa implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long fpId;
+
     private LocalDate fpData;
 
     private String fpBucket;

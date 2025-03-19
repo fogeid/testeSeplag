@@ -15,6 +15,7 @@ public class Unidade implements Serializable {
     private Long unidId;
 
     private String unidNome;
+
     private String unidSigla;
 
     public Unidade() {

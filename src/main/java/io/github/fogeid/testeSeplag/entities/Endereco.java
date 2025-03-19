@@ -15,8 +15,11 @@ public class Endereco implements Serializable {
     private Long endIdd;
 
     private String endTipoLogradouro;
+
     private String endLougradouro;
+
     private Integer endNumero;
+
     private String endBairro;
 
     @ManyToOne
