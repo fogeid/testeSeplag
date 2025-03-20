@@ -1,13 +1,13 @@
-package io.github.fogeid.testeSeplag.entities;
+package io.github.fogeid.testeSeplag.dto.cidade;
 
-import jakarta.persistence.*;
+import io.github.fogeid.testeSeplag.entities.Cidade;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import java.io.Serializable;
-import java.util.Objects;
 
-@Entity
-@Table(name = "tb_cidade")
-public class Cidade implements Serializable {
+public class CidadeDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -18,11 +18,17 @@ public class Cidade implements Serializable {
 
     private String cidUf;
 
-    public Cidade() {
+    public CidadeDTO() {
 
     }
 
-    public Cidade(Long cidId, String cidNome, String cidUf) {
+    public CidadeDTO(Cidade cidade) {
+        this.cidId = cidade.getCidId();
+        this.cidNome = cidade.getCidNome();
+        this.cidUf = cidade.getCidUf();
+    }
+
+    public CidadeDTO(Long cidId, String cidNome, String cidUf) {
         this.cidId = cidId;
         this.cidNome = cidNome;
         this.cidUf = cidUf;
@@ -50,17 +56,5 @@ public class Cidade implements Serializable {
 
     public void setCidUf(String cidUf) {
         this.cidUf = cidUf;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Cidade cidade)) return false;
-        return cidId.equals(cidade.cidId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(cidId);
     }
 }

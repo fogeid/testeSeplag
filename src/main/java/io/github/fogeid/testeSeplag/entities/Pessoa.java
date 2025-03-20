@@ -42,7 +42,6 @@ public class Pessoa implements Serializable {
     private ServidorEfetivo servidorEfetivo;
 
     public Pessoa() {
-
     }
 
     public Pessoa(Long pesId, String pesNome, LocalDate pesDataNascimento, String pesSexo, String pesMae, String pesPai, List<FotoPessoa> fotos, List<PessoaEndereco> enderecos, List<Lotacao> lotacoes, ServidorTemporario servidorTemporario, ServidorEfetivo servidorEfetivo) {
