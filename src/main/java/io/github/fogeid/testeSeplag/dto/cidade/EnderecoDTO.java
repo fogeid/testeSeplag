@@ -1,13 +1,12 @@
-package io.github.fogeid.testeSeplag.entities;
+package io.github.fogeid.testeSeplag.dto.cidade;
 
+import io.github.fogeid.testeSeplag.entities.Cidade;
+import io.github.fogeid.testeSeplag.entities.Endereco;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.Objects;
 
-@Entity
-@Table(name = "tb_endereco")
-public class Endereco implements Serializable {
+public class EnderecoDTO implements Serializable {
     public static final long serialVersionUID = 1L;
 
     @Id
@@ -22,20 +21,28 @@ public class Endereco implements Serializable {
 
     private String endBairro;
 
-    @ManyToOne
-    @JoinColumn(name = "cid_id", nullable = false)
-    private Cidade cidade;
+    private Long cidId;
 
-    public Endereco() {
+    public EnderecoDTO() {
+
     }
 
-    public Endereco(Long endId, String endTipoLogradouro, String endLougradouro, Integer endNumero, String endBairro, Cidade cidade) {
+    public EnderecoDTO(Endereco endereco) {
+        this.endId = endereco.getEndId();
+        this.endTipoLogradouro = endereco.getEndTipoLogradouro();
+        this.endLougradouro = endereco.getEndLougradouro();
+        this.endNumero = endereco.getEndNumero();
+        this.endBairro = endereco.getEndBairro();
+        this.cidId = endereco.getCidade().getCidId();
+    }
+
+    public EnderecoDTO(Long endId, String endTipoLogradouro, String endLougradouro, Integer endNumero, String endBairro, Long cidId) {
         this.endId = endId;
         this.endTipoLogradouro = endTipoLogradouro;
         this.endLougradouro = endLougradouro;
         this.endNumero = endNumero;
         this.endBairro = endBairro;
-        this.cidade = cidade;
+        this.cidId = cidId;
     }
 
     public Long getEndId() {
@@ -78,23 +85,11 @@ public class Endereco implements Serializable {
         this.endBairro = endBairro;
     }
 
-    public Cidade getCidade() {
-        return cidade;
+    public Long getCidId() {
+        return cidId;
     }
 
-    public void setCidade(Cidade cidade) {
-        this.cidade = cidade;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Endereco endereco)) return false;
-        return endId.equals(endereco.endId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(endId);
+    public void setCidId(Long cidId) {
+        this.cidId = cidId;
     }
 }

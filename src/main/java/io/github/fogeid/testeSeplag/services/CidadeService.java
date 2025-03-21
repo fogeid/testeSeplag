@@ -32,7 +32,6 @@ public class CidadeService {
 
     @Transactional(readOnly = true)
     public CidadeDTO findById(Long id) {
-        System.out.println("Id: " + id);
         Optional<Cidade> Cidade = cidadeRepository.findById(id);
         Cidade cidade = Cidade.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         return new CidadeDTO(cidade);
