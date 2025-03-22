@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_pessoa")
@@ -26,36 +25,36 @@ public class Pessoa implements Serializable {
 
     private String pesPai;
 
-    @OneToMany(mappedBy = "pessoa")
-    private List<FotoPessoa> fotos;
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+    private List<FotoPessoa> fotos = new ArrayList<>();;
 
-    @OneToMany(mappedBy = "pessoa")
-    private List<PessoaEndereco> enderecos;
+    @ManyToMany
+    @JoinTable(
+            name = "tb_pessoa_endereco",
+            joinColumns = @JoinColumn(name = "pes_id"),
+            inverseJoinColumns = @JoinColumn(name = "end_id")
+    )
+    private Set<Endereco> enderecos = new HashSet<>();
 
-    @OneToMany(mappedBy = "pessoa")
-    private List<Lotacao> lotacoes;
-
-    @OneToOne(mappedBy = "pessoa")
+    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL)
     private ServidorTemporario servidorTemporario;
 
-    @OneToOne(mappedBy = "pessoa")
+    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL)
     private ServidorEfetivo servidorEfetivo;
+
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+    private List<Lotacao> lotacoes = new ArrayList<>();
 
     public Pessoa() {
     }
 
-    public Pessoa(Long pesId, String pesNome, LocalDate pesDataNascimento, String pesSexo, String pesMae, String pesPai, List<FotoPessoa> fotos, List<PessoaEndereco> enderecos, List<Lotacao> lotacoes, ServidorTemporario servidorTemporario, ServidorEfetivo servidorEfetivo) {
+    public Pessoa(Long pesId, String pesNome, LocalDate pesDataNascimento, String pesSexo, String pesMae, String pesPai, List<FotoPessoa> fotos, Set<Endereco> enderecos, ServidorTemporario servidorTemporario, ServidorEfetivo servidorEfetivo, List<Lotacao> lotacoes) {
         this.pesId = pesId;
         this.pesNome = pesNome;
         this.pesDataNascimento = pesDataNascimento;
         this.pesSexo = pesSexo;
         this.pesMae = pesMae;
         this.pesPai = pesPai;
-        this.fotos = fotos;
-        this.enderecos = enderecos;
-        this.lotacoes = lotacoes;
-        this.servidorTemporario = servidorTemporario;
-        this.servidorEfetivo = servidorEfetivo;
     }
 
     public Long getPesId() {
@@ -114,20 +113,12 @@ public class Pessoa implements Serializable {
         this.fotos = fotos;
     }
 
-    public List<PessoaEndereco> getEnderecos() {
+    public Set<Endereco> getEnderecos() {
         return enderecos;
     }
 
-    public void setEnderecos(List<PessoaEndereco> enderecos) {
+    public void setEnderecos(Set<Endereco> enderecos) {
         this.enderecos = enderecos;
-    }
-
-    public List<Lotacao> getLotacoes() {
-        return lotacoes;
-    }
-
-    public void setLotacoes(List<Lotacao> lotacoes) {
-        this.lotacoes = lotacoes;
     }
 
     public ServidorTemporario getServidorTemporario() {
@@ -144,6 +135,14 @@ public class Pessoa implements Serializable {
 
     public void setServidorEfetivo(ServidorEfetivo servidorEfetivo) {
         this.servidorEfetivo = servidorEfetivo;
+    }
+
+    public List<Lotacao> getLotacoes() {
+        return lotacoes;
+    }
+
+    public void setLotacoes(List<Lotacao> lotacoes) {
+        this.lotacoes = lotacoes;
     }
 
     @Override

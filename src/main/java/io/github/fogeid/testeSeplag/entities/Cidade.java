@@ -3,6 +3,7 @@ package io.github.fogeid.testeSeplag.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,14 +19,18 @@ public class Cidade implements Serializable {
 
     private String cidUf;
 
+    @OneToMany(mappedBy = "cidade")
+    private List<Endereco> enderecos;
+
     public Cidade() {
 
     }
 
-    public Cidade(Long cidId, String cidNome, String cidUf) {
+    public Cidade(Long cidId, String cidNome, String cidUf, List<Endereco> enderecos) {
         this.cidId = cidId;
         this.cidNome = cidNome;
         this.cidUf = cidUf;
+        this.enderecos = enderecos;
     }
 
     public Long getCidId() {
@@ -50,6 +55,14 @@ public class Cidade implements Serializable {
 
     public void setCidUf(String cidUf) {
         this.cidUf = cidUf;
+    }
+
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
     }
 
     @Override

@@ -1,10 +1,13 @@
 package io.github.fogeid.testeSeplag.services;
 
-import io.github.fogeid.testeSeplag.dto.cidade.EnderecoDTO;
+import io.github.fogeid.testeSeplag.dto.endereco.EnderecoDTO;
+import io.github.fogeid.testeSeplag.dto.unidade.UnidadeDTO;
 import io.github.fogeid.testeSeplag.entities.Cidade;
 import io.github.fogeid.testeSeplag.entities.Endereco;
+import io.github.fogeid.testeSeplag.entities.Unidade;
 import io.github.fogeid.testeSeplag.repositories.CidadeRepository;
 import io.github.fogeid.testeSeplag.repositories.EnderecoRepository;
+import io.github.fogeid.testeSeplag.repositories.UnidadeRepository;
 import io.github.fogeid.testeSeplag.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
@@ -26,6 +29,9 @@ public class EnderecoService {
 
     @Autowired
     private CidadeRepository cidadeRepository;
+
+    @Autowired
+    private UnidadeRepository unidadeRepository;
 
     @Transactional
     public EnderecoDTO insert(EnderecoDTO dto) {
@@ -71,6 +77,14 @@ public class EnderecoService {
                     () -> new IllegalArgumentException("Cidade não encontrada para o ID: " + dto.getCidId())
             );
             endereco.setCidade(cidade);
+        }
+
+
+        for (Long unidDto : dto.getUnidades()) {
+            System.out.println(unidDto);
+            Unidade unidade = unidadeRepository.getReferenceById(unidDto);
+            System.out.println(unidade.getUnidId());
+            endereco.getUnidades().add(unidade);
         }
     }
 }

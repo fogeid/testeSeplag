@@ -1,7 +1,9 @@
 package io.github.fogeid.testeSeplag.services;
 
-import io.github.fogeid.testeSeplag.dto.cidade.UnidadeDTO;
+import io.github.fogeid.testeSeplag.dto.unidade.UnidadeDTO;
+import io.github.fogeid.testeSeplag.entities.Endereco;
 import io.github.fogeid.testeSeplag.entities.Unidade;
+import io.github.fogeid.testeSeplag.repositories.EnderecoRepository;
 import io.github.fogeid.testeSeplag.repositories.UnidadeRepository;
 import io.github.fogeid.testeSeplag.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,10 +19,13 @@ import java.util.Optional;
 
 @Service
 public class UnidadeService {
-    private static final Logger logger = LoggerFactory.getLogger(CidadeService.class);
+    private static final Logger logger = LoggerFactory.getLogger(UnidadeService.class);
 
     @Autowired
     private UnidadeRepository unidadeRepository;
+
+    @Autowired
+    private EnderecoRepository enderecoRepository;
 
     @Transactional
     public UnidadeDTO insert(UnidadeDTO dto) {
@@ -32,8 +37,8 @@ public class UnidadeService {
 
     @Transactional(readOnly = true)
     public UnidadeDTO findById(Long id) {
-        Optional<Unidade> Unidade = unidadeRepository.findById(id);
-        Unidade unidade = Unidade.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+        Optional<Unidade> unidadeOptional = unidadeRepository.findById(id);
+        Unidade unidade = unidadeOptional.orElseThrow(() -> new ResourceNotFoundException("Entity not found with id: " + id));
         return new UnidadeDTO(unidade);
     }
 
@@ -51,12 +56,39 @@ public class UnidadeService {
             unidade = unidadeRepository.save(unidade);
             return new UnidadeDTO(unidade);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Id not found " + id);
+            throw new ResourceNotFoundException("Id not found: " + id);
         }
+    }
+
+    @Transactional
+    public void addEndereco(Long unidadeId, Long enderecoId) {
+        Unidade unidade = unidadeRepository.findById(unidadeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Unidade não encontrada com ID: " + unidadeId));
+        Endereco endereco = enderecoRepository.findById(enderecoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Endereço não encontrado com ID: " + enderecoId));
+        unidade.getEnderecos().add(endereco);
+        unidadeRepository.save(unidade);
+    }
+
+    @Transactional
+    public void removeEndereco(Long unidadeId, Long enderecoId) {
+        Unidade unidade = unidadeRepository.findById(unidadeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Unidade não encontrada com ID: " + unidadeId));
+        unidade.getEnderecos().removeIf(endereco -> endereco.getEndId().equals(enderecoId));
+        unidadeRepository.save(unidade);
     }
 
     private void copyDtoToEntity(UnidadeDTO dto, Unidade unidade) {
         unidade.setUnidNome(dto.getUnidNome());
         unidade.setUnidSigla(dto.getUnidSigla());
+
+        unidade.getEnderecos().clear();
+        if (dto.getEnderecoIds() != null && !dto.getEnderecoIds().isEmpty()) {
+            for (Long enderecoId : dto.getEnderecoIds()) {
+                Endereco endereco = enderecoRepository.findById(enderecoId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Endereço não encontrado com ID: " + enderecoId));
+                unidade.getEnderecos().add(endereco);
+            }
+        }
     }
 }

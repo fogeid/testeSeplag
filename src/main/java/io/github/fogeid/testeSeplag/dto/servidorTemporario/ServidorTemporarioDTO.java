@@ -1,39 +1,39 @@
-package io.github.fogeid.testeSeplag.entities;
+package io.github.fogeid.testeSeplag.dto.servidorTemporario;
 
-
-import jakarta.persistence.*;
+import io.github.fogeid.testeSeplag.entities.ServidorTemporario;
+import jakarta.persistence.Id;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Objects;
 
-@Entity
-@Table(name = "tb_servidor_temporario")
-public class ServidorTemporario implements Serializable {
+public class ServidorTemporarioDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "pes_id")
     private Long pesId;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "pes_id", nullable = false)
-    private Pessoa pessoa;
+    private Long pessoa;
 
     private LocalDate stDataAdmissao;
 
     private LocalDate stDataDemissao;
 
-    public ServidorTemporario(Long pesId, Pessoa pessoa, LocalDate stDataAdmissao, LocalDate stDataDemissao) {
+    public ServidorTemporarioDTO() {
+
+    }
+
+    public ServidorTemporarioDTO(Long pesId, Long pessoa, LocalDate stDataAdmissao, LocalDate stDataDemissao) {
         this.pesId = pesId;
         this.pessoa = pessoa;
         this.stDataAdmissao = stDataAdmissao;
         this.stDataDemissao = stDataDemissao;
     }
 
-    public ServidorTemporario() {
-
+    public  ServidorTemporarioDTO(ServidorTemporario servidorTemporario) {
+        this.pesId = servidorTemporario.getPesId();
+        this.pessoa = servidorTemporario.getPessoa() != null ? servidorTemporario.getPessoa().getPesId() : null;
+        this.stDataAdmissao = servidorTemporario.getStDataAdmissao();
+        this.stDataDemissao = servidorTemporario.getStDataDemissao();
     }
 
     public Long getPesId() {
@@ -44,11 +44,11 @@ public class ServidorTemporario implements Serializable {
         this.pesId = pesId;
     }
 
-    public Pessoa getPessoa() {
+    public Long getPessoa() {
         return pessoa;
     }
 
-    public void setPessoa(Pessoa pessoa) {
+    public void setPessoa(Long pessoa) {
         this.pessoa = pessoa;
     }
 
@@ -66,17 +66,5 @@ public class ServidorTemporario implements Serializable {
 
     public void setStDataDemissao(LocalDate stDataDemissao) {
         this.stDataDemissao = stDataDemissao;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ServidorTemporario that)) return false;
-        return pesId.equals(that.pesId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(pesId);
     }
 }

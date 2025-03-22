@@ -1,7 +1,10 @@
 package io.github.fogeid.testeSeplag.controllers;
 
+import io.github.fogeid.testeSeplag.dto.cidade.CidadeDTO;
+import io.github.fogeid.testeSeplag.dto.pessoa.PessoaDTO;
 import io.github.fogeid.testeSeplag.dto.unidade.UnidadeDTO;
-import io.github.fogeid.testeSeplag.services.UnidadeService;
+import io.github.fogeid.testeSeplag.repositories.PessoaRepository;
+import io.github.fogeid.testeSeplag.services.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,43 +17,47 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/unidades")
-public class UnidadeController {
+@RequestMapping("/pessoas")
+public class PessoaController {
+
     @Autowired
-    private UnidadeService unidadeService;
+    private PessoaRepository pessoaRepository;
+
+    @Autowired
+    private PessoaService pessoaService;
 
     @PostMapping
-    public ResponseEntity<UnidadeDTO> insert(@RequestBody @Validated UnidadeDTO dto) {
-        UnidadeDTO newDto = unidadeService.insert(dto);
+    public ResponseEntity<PessoaDTO> insert(@RequestBody @Validated PessoaDTO dto) {
+        PessoaDTO newDto = pessoaService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(newDto.getUnidId())
+                .buildAndExpand(newDto.getPesId())
                 .toUri();
         return ResponseEntity.created(uri).body(newDto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UnidadeDTO> findById(@PathVariable Long id) {
-        UnidadeDTO dto = unidadeService.findById(id);
+    public ResponseEntity<PessoaDTO> findById(@PathVariable Long id) {
+        PessoaDTO dto = pessoaService.findById(id);
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping
-    public ResponseEntity<Page<UnidadeDTO>> findAll(
+    public ResponseEntity<Page<PessoaDTO>> findAll(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
             @RequestParam(value = "direction", defaultValue = "ASC") String direction,
-            @RequestParam(value = "orderBy", defaultValue = "unidNome") String orderBy
+            @RequestParam(value = "orderBy", defaultValue = "pesNome") String orderBy
     ) {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
 
-        Page<UnidadeDTO> list = unidadeService.findAllPaged(pageRequest);
+        Page<PessoaDTO> list = pessoaService.findAllPaged(pageRequest);
         return ResponseEntity.ok(list);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UnidadeDTO> update(@PathVariable Long id, @RequestBody @Validated UnidadeDTO dto) {
-        UnidadeDTO newDto = unidadeService.update(id, dto);
+    public ResponseEntity<PessoaDTO> update(@PathVariable Long id, @RequestBody @Validated PessoaDTO dto) {
+        PessoaDTO newDto = pessoaService.update(id, dto);
         return ResponseEntity.ok().body(newDto);
     }
 }
