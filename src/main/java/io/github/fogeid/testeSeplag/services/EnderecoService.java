@@ -8,11 +8,14 @@ import io.github.fogeid.testeSeplag.entities.Unidade;
 import io.github.fogeid.testeSeplag.repositories.CidadeRepository;
 import io.github.fogeid.testeSeplag.repositories.EnderecoRepository;
 import io.github.fogeid.testeSeplag.repositories.UnidadeRepository;
+import io.github.fogeid.testeSeplag.services.exceptions.DatabaseException;
 import io.github.fogeid.testeSeplag.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -44,7 +47,7 @@ public class EnderecoService {
     @Transactional(readOnly = true)
     public EnderecoDTO findById(Long id) {
         Optional<Endereco> Endereco = enderecoRepository.findById(id);
-        Endereco endereco = Endereco.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+        Endereco endereco = Endereco.orElseThrow(() -> new ResourceNotFoundException("Endereço não encontrado no ID: " + id));
         return new EnderecoDTO(endereco);
     }
 
@@ -62,7 +65,17 @@ public class EnderecoService {
             endereco = enderecoRepository.save(endereco);
             return new EnderecoDTO(endereco);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Id not found " + id);
+            throw new ResourceNotFoundException("Endereço não encontrado no ID: " + id);
+        }
+    }
+
+    public void delete(Long id) {
+        try {
+            enderecoRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("Endereço não encontrado no ID: " + id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Violação de integridade");
         }
     }
 

@@ -60,4 +60,10 @@ public class PessoaController {
         PessoaDTO newDto = pessoaService.update(id, dto);
         return ResponseEntity.ok().body(newDto);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        pessoaService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

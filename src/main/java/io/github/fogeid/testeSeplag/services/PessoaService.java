@@ -52,7 +52,7 @@ public class PessoaService {
     @Transactional(readOnly = true)
     public PessoaDTO findById(Long id) {
         Optional<Pessoa> Pessoa = pessoaRepository.findById(id);
-        Pessoa pessoa = Pessoa.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+        Pessoa pessoa = Pessoa.orElseThrow(() -> new ResourceNotFoundException("Pessoa não encontrada no ID: " + id));
         return new PessoaDTO(pessoa);
     }
 
@@ -70,8 +70,16 @@ public class PessoaService {
             pessoa = pessoaRepository.save(pessoa);
             return new PessoaDTO(pessoa);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Id not found " + id);
+            throw new ResourceNotFoundException("Pessoa não encontrada no ID: " + id);
         }
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        if (!pessoaRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Pessoa não encontrada com ID: " + id);
+        }
+        pessoaRepository.deleteById(id);
     }
 
     private void copyDtoToEntity(PessoaDTO dto, Pessoa pessoa) {

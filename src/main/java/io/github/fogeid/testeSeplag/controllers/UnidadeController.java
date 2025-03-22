@@ -1,5 +1,6 @@
 package io.github.fogeid.testeSeplag.controllers;
 
+import io.github.fogeid.testeSeplag.dto.cidade.CidadeDTO;
 import io.github.fogeid.testeSeplag.dto.unidade.UnidadeDTO;
 import io.github.fogeid.testeSeplag.services.UnidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +53,23 @@ public class UnidadeController {
     public ResponseEntity<UnidadeDTO> update(@PathVariable Long id, @RequestBody @Validated UnidadeDTO dto) {
         UnidadeDTO newDto = unidadeService.update(id, dto);
         return ResponseEntity.ok().body(newDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<UnidadeDTO> delete(@PathVariable Long id) {
+        unidadeService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{unidadeId}/enderecos/{enderecoId}")
+    public ResponseEntity<Void> addEndereco(@PathVariable Long unidadeId, @PathVariable Long enderecoId) {
+        unidadeService.addEndereco(unidadeId, enderecoId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{unidadeId}/enderecos/{enderecoId}")
+    public ResponseEntity<Void> removeEndereco(@PathVariable Long unidadeId, @PathVariable Long enderecoId) {
+        unidadeService.removeEndereco(unidadeId, enderecoId);
+        return ResponseEntity.ok().build();
     }
 }
