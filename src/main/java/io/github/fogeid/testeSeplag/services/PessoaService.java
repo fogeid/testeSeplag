@@ -9,6 +9,8 @@ import io.github.fogeid.testeSeplag.entities.*;
 import io.github.fogeid.testeSeplag.repositories.*;
 import io.github.fogeid.testeSeplag.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +21,7 @@ import java.util.Optional;
 
 @Service
 public class PessoaService {
+    private static final Logger logger = LoggerFactory.getLogger(PessoaService.class);
 
     @Autowired
     private PessoaRepository pessoaRepository;

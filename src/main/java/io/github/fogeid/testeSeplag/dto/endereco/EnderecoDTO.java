@@ -20,20 +20,20 @@ public class EnderecoDTO implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long endId;
     private String endTipoLogradouro;
-    private String endLougradouro;
+    private String endLogradouro;
     private Integer endNumero;
     private String endBairro;
     private Long cidId;
-    private Set<Long> pessoas = new HashSet<>(); // Usar IDs em vez de entidades Pessoa
-    private Set<Long> unidades = new HashSet<>(); // Usar IDs em vez de entidades Unidade
+    private Set<Long> pessoas = new HashSet<>();
+    private Set<Long> unidades = new HashSet<>();
 
     public EnderecoDTO() {
     }
 
-    public EnderecoDTO(Long endId, String endTipoLogradouro, String endLougradouro, Integer endNumero, String endBairro, Long cidId) {
+    public EnderecoDTO(Long endId, String endTipoLogradouro, String endLogradouro, Integer endNumero, String endBairro, Long cidId) {
         this.endId = endId;
         this.endTipoLogradouro = endTipoLogradouro;
-        this.endLougradouro = endLougradouro;
+        this.endLogradouro = endLogradouro;
         this.endNumero = endNumero;
         this.endBairro = endBairro;
         this.cidId = cidId;
@@ -42,7 +42,7 @@ public class EnderecoDTO implements Serializable {
     public EnderecoDTO(Endereco endereco) {
         this.endId = endereco.getEndId();
         this.endTipoLogradouro = endereco.getEndTipoLogradouro();
-        this.endLougradouro = endereco.getEndLougradouro();
+        this.endLogradouro = endereco.getEndLogradouro();
         this.endNumero = endereco.getEndNumero();
         this.endBairro = endereco.getEndBairro();
         this.cidId = endereco.getCidade() != null ? endereco.getCidade().getCidId() : null;
@@ -75,12 +75,12 @@ public class EnderecoDTO implements Serializable {
         this.endTipoLogradouro = endTipoLogradouro;
     }
 
-    public String getEndLougradouro() {
-        return endLougradouro;
+    public String getEndLogradouro() {
+        return endLogradouro;
     }
 
-    public void setEndLougradouro(String endLougradouro) {
-        this.endLougradouro = endLougradouro;
+    public void setEndLogradouro(String endLogradouro) {
+        this.endLogradouro = endLogradouro;
     }
 
     public Integer getEndNumero() {

@@ -1,7 +1,6 @@
 package io.github.fogeid.testeSeplag.dto.fotoPessoa;
 
 import io.github.fogeid.testeSeplag.entities.FotoPessoa;
-import io.github.fogeid.testeSeplag.entities.Pessoa;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;

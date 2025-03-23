@@ -1,7 +1,6 @@
 package io.github.fogeid.testeSeplag.services;
 
 import io.github.fogeid.testeSeplag.dto.endereco.EnderecoDTO;
-import io.github.fogeid.testeSeplag.dto.unidade.UnidadeDTO;
 import io.github.fogeid.testeSeplag.entities.Cidade;
 import io.github.fogeid.testeSeplag.entities.Endereco;
 import io.github.fogeid.testeSeplag.entities.Unidade;
@@ -25,7 +24,7 @@ import java.util.Optional;
 
 @Service
 public class EnderecoService {
-    private static final Logger logger = LoggerFactory.getLogger(CidadeService.class);
+    private static final Logger logger = LoggerFactory.getLogger(EnderecoService.class);
 
     @Autowired
     private EnderecoRepository enderecoRepository;
@@ -81,7 +80,7 @@ public class EnderecoService {
 
     private void copyDtoToEntity(EnderecoDTO dto, Endereco endereco) {
         endereco.setEndTipoLogradouro(dto.getEndTipoLogradouro());
-        endereco.setEndLougradouro(dto.getEndLougradouro());
+        endereco.setEndLogradouro(dto.getEndLogradouro());
         endereco.setEndNumero(dto.getEndNumero());
         endereco.setEndBairro(dto.getEndBairro());
 

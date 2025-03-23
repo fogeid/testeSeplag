@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,7 +18,7 @@ public class Endereco implements Serializable {
 
     private String endTipoLogradouro;
 
-    private String endLougradouro;
+    private String endLogradouro;
 
     private Integer endNumero;
 
@@ -43,10 +42,10 @@ public class Endereco implements Serializable {
     public Endereco() {
     }
 
-    public Endereco(Long endId, String endTipoLogradouro, String endLougradouro, Integer endNumero, String endBairro, Cidade cidade, Set<Pessoa> pessoas, Set<Unidade> unidades) {
+    public Endereco(Long endId, String endTipoLogradouro, String endLogradouro, Integer endNumero, String endBairro, Cidade cidade, Set<Pessoa> pessoas, Set<Unidade> unidades) {
         this.endId = endId;
         this.endTipoLogradouro = endTipoLogradouro;
-        this.endLougradouro = endLougradouro;
+        this.endLogradouro = endLogradouro;
         this.endNumero = endNumero;
         this.endBairro = endBairro;
         this.cidade = cidade;
@@ -70,12 +69,12 @@ public class Endereco implements Serializable {
         this.endTipoLogradouro = endTipoLogradouro;
     }
 
-    public String getEndLougradouro() {
-        return endLougradouro;
+    public String getEndLogradouro() {
+        return endLogradouro;
     }
 
-    public void setEndLougradouro(String endLougradouro) {
-        this.endLougradouro = endLougradouro;
+    public void setEndLogradouro(String endLogradouro) {
+        this.endLogradouro = endLogradouro;
     }
 
     public Integer getEndNumero() {

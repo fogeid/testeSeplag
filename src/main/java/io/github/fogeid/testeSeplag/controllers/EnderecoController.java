@@ -1,6 +1,5 @@
 package io.github.fogeid.testeSeplag.controllers;
 
-import io.github.fogeid.testeSeplag.dto.cidade.CidadeDTO;
 import io.github.fogeid.testeSeplag.dto.endereco.EnderecoDTO;
 import io.github.fogeid.testeSeplag.services.EnderecoService;
 import org.springframework.beans.factory.annotation.Autowired;

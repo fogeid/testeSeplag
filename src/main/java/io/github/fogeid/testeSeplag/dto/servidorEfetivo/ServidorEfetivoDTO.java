@@ -1,11 +1,7 @@
 package io.github.fogeid.testeSeplag.dto.servidorEfetivo;
 
-import io.github.fogeid.testeSeplag.entities.Pessoa;
 import io.github.fogeid.testeSeplag.entities.ServidorEfetivo;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
 
 import java.io.Serializable;
 

@@ -1,6 +1,5 @@
 package io.github.fogeid.testeSeplag.controllers;
 
-import io.github.fogeid.testeSeplag.dto.cidade.CidadeDTO;
 import io.github.fogeid.testeSeplag.dto.unidade.UnidadeDTO;
 import io.github.fogeid.testeSeplag.services.UnidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
