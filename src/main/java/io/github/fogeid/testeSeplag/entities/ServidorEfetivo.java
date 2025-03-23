@@ -20,11 +20,6 @@ public class ServidorEfetivo implements Serializable {
 
     private String seMatricula;
 
-//    public ServidorEfetivo(ServidorEfetivo servidorEfetivo) {
-//        this.pesId = servidorEfetivo.getPesId();
-//        this.pessoa
-//    }
-
     public ServidorEfetivo() {
         this.pesId = pesId;
         this.pessoa = pessoa;

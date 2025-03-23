@@ -34,10 +34,8 @@ public class ServidorEfetivoService {
             Unidade unidade = (Unidade) result[3];
             FotoPessoa fotoPessoa = (FotoPessoa) result[4];
 
-            // Calcular a idade
             Integer idade = Period.between(pessoa.getPesDataNascimento(), LocalDate.now()).getYears();
 
-            // Obter o caminho da fotografia (pode ser null)
             String fotografia = (fotoPessoa != null) ? fotoPessoa.getFpBucket() : null;
 
             return new ServidorEfetivoLotadoDTO(

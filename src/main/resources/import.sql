@@ -1,5 +1,3 @@
-
-
 -- Inserir 1 cidade (Cuiabá)
 INSERT INTO tb_cidade (cid_nome, cid_uf) VALUES ('Cuiabá', 'MT');
 
