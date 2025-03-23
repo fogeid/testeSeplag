@@ -1,10 +1,7 @@
 package io.github.fogeid.testeSeplag.services;
 
 import io.github.fogeid.testeSeplag.dto.servidorEfetivo.ServidorEfetivoLotadoDTO;
-import io.github.fogeid.testeSeplag.entities.Lotacao;
-import io.github.fogeid.testeSeplag.entities.Pessoa;
-import io.github.fogeid.testeSeplag.entities.ServidorEfetivo;
-import io.github.fogeid.testeSeplag.entities.Unidade;
+import io.github.fogeid.testeSeplag.entities.*;
 import io.github.fogeid.testeSeplag.repositories.ServidorEfetivoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,17 +31,20 @@ public class ServidorEfetivoService {
         List<ServidorEfetivoLotadoDTO> dto = pageResults.getContent().stream().map(result -> {
             Pessoa pessoa = (Pessoa) result[0];
             ServidorEfetivo servidorEfetivo = (ServidorEfetivo) result[1];
-            Lotacao lotacao = (Lotacao) result[2];
             Unidade unidade = (Unidade) result[3];
+            FotoPessoa fotoPessoa = (FotoPessoa) result[4];
+
+            // Calcular a idade
+            Integer idade = Period.between(pessoa.getPesDataNascimento(), LocalDate.now()).getYears();
+
+            // Obter o caminho da fotografia (pode ser null)
+            String fotografia = (fotoPessoa != null) ? fotoPessoa.getFpBucket() : null;
+
             return new ServidorEfetivoLotadoDTO(
-                    pessoa.getPesId(),
                     pessoa.getPesNome(),
-                    servidorEfetivo.getSeMatricula(),
-                    unidade.getUnidId(),
+                    idade,
                     unidade.getUnidNome(),
-                    lotacao.getLotDataLotacao(),
-                    lotacao.getLotDataRemocao(),
-                    lotacao.getLotPortaria()
+                    fotografia
             );
         }).collect(Collectors.toList());
 

@@ -9,6 +9,6 @@
            |_|            |___/
 
 :: Projeto de teste para o processo seletivo SeplagMT ::
-::                   ${AnsiColor.GREEN}version: 1.0.0${AnsiColor.DEFAULT}                   ::
+::                   ${AnsiColor.GREEN}version: 1.0.2${AnsiColor.DEFAULT}                   ::
 
 --------------------------------------------------------
