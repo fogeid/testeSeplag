@@ -1,9 +1,13 @@
 package io.github.fogeid.testeSeplag.services;
 
 import io.minio.GetObjectArgs;
+import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.errors.MinioException;
+import io.minio.http.Method;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,8 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.InputStream;
 import java.util.UUID;
 
+import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.enabled;
+
 @Service
 public class MinioService {
+    private static final Logger log = LoggerFactory.getLogger(MinioService.class);
 
     @Autowired
     private MinioClient minioClient;
@@ -21,19 +28,10 @@ public class MinioService {
     @Value("${minio.bucket}")
     private String bucketName;
 
-    /**
-     * Faz o upload de um arquivo para o MinIO e retorna o identificador único (hash) do arquivo.
-     *
-     * @param file O arquivo a ser enviado.
-     * @return O identificador único (hash) do arquivo no MinIO.
-     * @throws Exception Se ocorrer um erro durante o upload.
-     */
     public String uploadFile(MultipartFile file) throws Exception {
         try {
-            // Gerar um identificador único para o arquivo
             String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
 
-            // Fazer o upload do arquivo para o MinIO
             minioClient.putObject(
                     PutObjectArgs.builder()
                             .bucket(bucketName)
@@ -49,13 +47,6 @@ public class MinioService {
         }
     }
 
-    /**
-     * Faz o download de um arquivo do MinIO com base no identificador (hash).
-     *
-     * @param fileName O identificador único (hash) do arquivo.
-     * @return O InputStream do arquivo.
-     * @throws Exception Se ocorrer um erro durante o download.
-     */
     public InputStream downloadFile(String fileName) throws Exception {
         try {
             return minioClient.getObject(
@@ -66,6 +57,31 @@ public class MinioService {
             );
         } catch (MinioException e) {
             throw new Exception("Erro ao fazer download do arquivo do MinIO: " + e.getMessage(), e);
+        }
+    }
+
+    public String getPresignedUrl(String objectName) throws Exception {
+        if (!enabled || minioClient == null) {
+            log.warn("MinIO está desativado ou não configurado. Não é possível gerar URL temporária.");
+            return null;
+        }
+
+        try {
+            int expiryInSeconds = 5 * 60; // 5 minutos = 300 segundos
+            log.info("Gerando URL temporária para o objeto {} com expiração de {} segundos.", objectName, expiryInSeconds);
+
+            String url = minioClient.getPresignedObjectUrl(
+                    GetPresignedObjectUrlArgs.builder()
+                            .method(Method.GET)
+                            .bucket(bucketName)
+                            .object(objectName)
+                            .expiry(expiryInSeconds)
+                            .build());
+            log.info("URL temporária gerada para o objeto {}: {}", objectName, url);
+            return url;
+        } catch (Exception e) {
+            log.error("Erro ao gerar URL temporária para o objeto {}: {}", objectName, e.getMessage(), e);
+            throw new RuntimeException("Falha ao gerar URL temporária", e);
         }
     }
 }
