@@ -2,6 +2,7 @@ package io.github.fogeid.testeSeplag.entities;
 
 import jakarta.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -21,8 +22,9 @@ public class FotoPessoa implements Serializable {
 
     private String fpHash;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pes_id", nullable = false)
+    @JsonBackReference
     private Pessoa pessoa;
 
     public FotoPessoa() {

@@ -2,6 +2,7 @@ package io.github.fogeid.testeSeplag.entities;
 
 import jakarta.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
@@ -25,7 +26,8 @@ public class Pessoa implements Serializable {
 
     private String pesPai;
 
-    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<FotoPessoa> fotos = new ArrayList<>();;
 
     @ManyToMany
