@@ -54,6 +54,8 @@ cd testeSeplag
 O projeto usa um arquivo `application.properties` para configurações. Certifique-se de que o arquivo `src/main/resources/application.properties` contém as seguintes configurações:
 
 #### Configurações do Banco de Dados (PostgreSQL)
+```bash
+#### Configurações do PostgreSQL
 spring.datasource.url=jdbc:postgresql://db:5432/postgres
 spring.datasource.username=admin
 spring.datasource.password=admin
@@ -70,7 +72,7 @@ minio.bucket=fotos-pessoas
 #### Configurações do JWT
 jwt.secret=your-secret-key
 jwt.expiration=300000  # 5 minutos em milissegundos
-
+```
 - **Nota**: O `spring.jpa.hibernate.ddl-auto=create` recria o banco de dados a cada inicialização. Para produção, considere usar `update` ou um sistema de migrações como Flyway.
 
 ### Passo 3: Rodar a Aplicação com Docker Compose
@@ -83,14 +85,12 @@ O projeto inclui um arquivo `docker-compose.yml` que configura três serviços:
    No diretório raiz do projeto, execute:
 docker-compose up -d --build
 
-
 - O parâmetro `--build` garante que a imagem da aplicação seja recompilada.
 - O parâmetro `-d` roda os contêineres em segundo plano.
 
 2. **Verifique os logs**:
    Para confirmar que a aplicação iniciou corretamente, veja os logs do contêiner da aplicação:
    docker logs testeseplag-app-1
-
 
 ### Passo 4: Acessar a Documentação da API
 A API está documentada com Swagger. Acesse a interface do Swagger para explorar os endpoints:
@@ -142,7 +142,6 @@ Você pode acessar a interface web do MinIO para visualizar os arquivos armazena
 
 Navegue até o bucket `fotos-pessoas` para ver as fotos enviadas.
 
-
 ## 🛠️ Endpoints Principais
 
 Aqui estão alguns dos principais endpoints disponíveis na API:
@@ -165,5 +164,3 @@ Se tiver dúvidas ou precisar de ajuda, entre em contato:
 - **GitHub**: [fogeid](https://github.com/fogeid)
 
 ---
-
-
