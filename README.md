@@ -71,7 +71,6 @@ minio.bucket=fotos-pessoas
 
 #### Configurações do JWT
 jwt.secret=your-secret-key
-jwt.expiration=300000  # 5 minutos em milissegundos
 ```
 - **Nota**: O `spring.jpa.hibernate.ddl-auto=create` recria o banco de dados a cada inicialização. Para produção, considere usar `update` ou um sistema de migrações como Flyway.
 
