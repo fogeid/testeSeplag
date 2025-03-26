@@ -45,13 +45,14 @@ public class FotoPessoaController {
     }
 
     @GetMapping("/{pesId}/{fpId}/url")
-    public ResponseEntity<String> getFotoUrl(@PathVariable Long pesId, @PathVariable Long fpId) {
+    public ResponseEntity<String> getFotoUrl(
+            @PathVariable Long pesId,
+            @PathVariable Long fpId) {
         try {
             String url = fotoPessoaService.getFotoUrl(pesId, fpId);
             return ResponseEntity.ok(url);
         } catch (Exception e) {
-            log.error("Erro ao gerar URL temporária para fotoId {} da pessoaId {}: {}", fpId, pesId, e.getMessage());
-            return ResponseEntity.status(500).body("Erro ao gerar URL temporária: " + e.getMessage());
+            return ResponseEntity.status(500).body("Erro ao gerar URL: " + e.getMessage());
         }
     }
 }

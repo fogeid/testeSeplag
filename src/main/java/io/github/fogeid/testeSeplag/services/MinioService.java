@@ -16,8 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.InputStream;
 import java.util.UUID;
 
-import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.enabled;
-
 @Service
 public class MinioService {
     private static final Logger log = LoggerFactory.getLogger(MinioService.class);
@@ -26,7 +24,19 @@ public class MinioService {
     private MinioClient minioClient;
 
     @Value("${minio.bucket}")
-    private String bucketName;
+    private String bucket;
+
+    private final boolean minioEnabled;
+
+    public MinioService(
+            MinioClient minioClient,
+            @Value("${minio.bucket}") String bucketName,
+            @Value("${minio.enabled}") boolean minioEnabled) {
+        this.minioClient = minioClient;
+        this.bucket = bucketName;
+        this.minioEnabled = minioEnabled;
+        log.info("MinioService inicializado. minioEnabled: {}, bucketName: {}", minioEnabled, bucketName);
+    }
 
     public String uploadFile(MultipartFile file) throws Exception {
         try {
@@ -34,7 +44,7 @@ public class MinioService {
 
             minioClient.putObject(
                     PutObjectArgs.builder()
-                            .bucket(bucketName)
+                            .bucket(bucket)
                             .object(fileName)
                             .stream(file.getInputStream(), file.getSize(), -1)
                             .contentType(file.getContentType())
@@ -51,7 +61,7 @@ public class MinioService {
         try {
             return minioClient.getObject(
                     GetObjectArgs.builder()
-                            .bucket(bucketName)
+                            .bucket(bucket)
                             .object(fileName)
                             .build()
             );
@@ -61,19 +71,19 @@ public class MinioService {
     }
 
     public String getPresignedUrl(String objectName) throws Exception {
-        if (!enabled || minioClient == null) {
+        if (!minioEnabled || minioClient == null) {
             log.warn("MinIO está desativado ou não configurado. Não é possível gerar URL temporária.");
             return null;
         }
 
         try {
-            int expiryInSeconds = 5 * 60; // 5 minutos = 300 segundos
+            int expiryInSeconds = 5 * 60;
             log.info("Gerando URL temporária para o objeto {} com expiração de {} segundos.", objectName, expiryInSeconds);
 
             String url = minioClient.getPresignedObjectUrl(
                     GetPresignedObjectUrlArgs.builder()
                             .method(Method.GET)
-                            .bucket(bucketName)
+                            .bucket(bucket)
                             .object(objectName)
                             .expiry(expiryInSeconds)
                             .build());

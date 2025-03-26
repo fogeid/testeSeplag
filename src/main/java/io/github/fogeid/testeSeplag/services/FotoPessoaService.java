@@ -51,11 +51,17 @@ public class FotoPessoaService {
 
         return minioService.downloadFile(fotoPessoa.getFpHash());
     }
-
     public String getFotoUrl(Long pesId, Long fpId) throws Exception {
-        log.info("Gerando URL temporária para fotoId: {} da pessoaId: {}", fpId, pesId);
+        log.info("Gerando URL temporária para fpId: {} da pesId: {}", fpId, pesId);
         FotoPessoa fotoPessoa = fotoPessoaRepository.findByFpIdAndPessoa_PesId(fpId, pesId)
-                .orElseThrow(() -> new RuntimeException("Foto com ID " + fpId + " não encontrada para pessoaId " + pesId));
-        return minioService.getPresignedUrl(fotoPessoa.getFpBucket());
+                .orElseThrow(() -> new RuntimeException("Foto não encontrada para pesId: " + pesId + " e fotoId: " + fpId));
+
+        log.info("Foto Pessoa: ", fotoPessoa.getFpHash());
+        String objectName = fotoPessoa.getFpHash();
+        String url = minioService.getPresignedUrl(objectName);
+        if (url == null) {
+            throw new RuntimeException("Não foi possível gerar a URL temporária. Verifique a configuração do MinIO.");
+        }
+        return url;
     }
 }

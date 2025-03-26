@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @Service
 public class ServidorEfetivoService {
     private static final Logger logger = LoggerFactory.getLogger(ServidorEfetivoService.class);
+
     @Autowired
     private ServidorEfetivoRepository servidorEfetivoRepository;
 

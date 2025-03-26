@@ -7,6 +7,8 @@ import io.github.fogeid.testeSeplag.entities.Lotacao;
 import io.github.fogeid.testeSeplag.entities.Pessoa;
 import io.github.fogeid.testeSeplag.entities.Unidade;
 import io.github.fogeid.testeSeplag.repositories.ServidorRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class ServidorService {
+    private static final Logger logger = LoggerFactory.getLogger(ServidorService.class);
 
     @Autowired
     private ServidorRepository servidorRepository;

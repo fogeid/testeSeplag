@@ -14,6 +14,10 @@ INSERT INTO tb_unidade_endereco (end_id, unid_id) VALUES (3, 3);
 INSERT INTO tb_unidade_endereco (end_id, unid_id) VALUES (4, 4);
 INSERT INTO tb_unidade_endereco (end_id, unid_id) VALUES (5, 5);
 
+-- -- Inserir 2 usuários
+-- INSERT INTO tb_usuario (usu_username, usu_password, usu_roles) VALUES ('admin', '$2a$10$yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy', 'ROLE_ADMIN');
+-- INSERT INTO tb_usuario (usu_username, usu_password, usu_roles) VALUES ('user', '$2a$10$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'ROLE_USER');
+
 
 -- Inserir 10 pessoas, cada uma com um endereço e uma lotação
 -- Pessoa 1

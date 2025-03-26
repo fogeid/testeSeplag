@@ -49,5 +49,6 @@ public class MinIoConfig {
             log.error("Erro ao inicializar o MinIO ou criar o bucket: {}", e.getMessage(), e);
             throw new RuntimeException("Falha ao configurar o MinIO", e);
         }
+
     }
 }
