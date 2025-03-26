@@ -60,15 +60,15 @@ public class UnidadeController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{unidadeId}/enderecos/{enderecoId}")
-    public ResponseEntity<Void> addEndereco(@PathVariable Long unidadeId, @PathVariable Long enderecoId) {
-        unidadeService.addEndereco(unidadeId, enderecoId);
+    @PostMapping("/{unidId}/enderecos/{endId}")
+    public ResponseEntity<Void> addEndereco(@PathVariable Long unidId, @PathVariable Long endId) {
+        unidadeService.addEndereco(unidId, endId);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{unidadeId}/enderecos/{enderecoId}")
-    public ResponseEntity<Void> removeEndereco(@PathVariable Long unidadeId, @PathVariable Long enderecoId) {
-        unidadeService.removeEndereco(unidadeId, enderecoId);
+    @DeleteMapping("/{unidId}/enderecos/{endId}")
+    public ResponseEntity<Void> removeEndereco(@PathVariable Long unidId, @PathVariable Long endId) {
+        unidadeService.removeEndereco(unidId, endId);
         return ResponseEntity.ok().build();
     }
 }

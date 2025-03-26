@@ -64,20 +64,20 @@ public class UnidadeService {
     }
 
     @Transactional
-    public void addEndereco(Long unidadeId, Long enderecoId) {
-        Unidade unidade = unidadeRepository.findById(unidadeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Unidade não encontrada com ID: " + unidadeId));
-        Endereco endereco = enderecoRepository.findById(enderecoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Endereço não encontrado com ID: " + enderecoId));
+    public void addEndereco(Long unidId, Long endId) {
+        Unidade unidade = unidadeRepository.findById(unidId)
+                .orElseThrow(() -> new ResourceNotFoundException("Unidade não encontrada com ID: " + unidId));
+        Endereco endereco = enderecoRepository.findById(endId)
+                .orElseThrow(() -> new ResourceNotFoundException("Endereço não encontrado com ID: " + endId));
         unidade.getEnderecos().add(endereco);
         unidadeRepository.save(unidade);
     }
 
     @Transactional
-    public void removeEndereco(Long unidadeId, Long enderecoId) {
-        Unidade unidade = unidadeRepository.findById(unidadeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Unidade não encontrada com ID: " + unidadeId));
-        unidade.getEnderecos().removeIf(endereco -> endereco.getEndId().equals(enderecoId));
+    public void removeEndereco(Long unidId, Long endId) {
+        Unidade unidade = unidadeRepository.findById(unidId)
+                .orElseThrow(() -> new ResourceNotFoundException("Unidade não encontrada com ID: " + unidId));
+        unidade.getEnderecos().removeIf(endereco -> endereco.getEndId().equals(endId));
         unidadeRepository.save(unidade);
     }
 
