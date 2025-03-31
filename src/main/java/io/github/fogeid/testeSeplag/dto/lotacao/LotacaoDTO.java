@@ -1,18 +1,33 @@
 package io.github.fogeid.testeSeplag.dto.lotacao;
 
 import io.github.fogeid.testeSeplag.entities.Lotacao;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
 public class LotacaoDTO implements Serializable {
     public static final long serialVersionUID = 1L;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long lotId;
+
+    @NotBlank
     private LocalDate lotDataLotacao;
+
+    @NotBlank
     private LocalDate lotDataRemocao;
+
+    @NotBlank
     private String lotPortaria;
+
+    @NotBlank
     private Long pesId;
 
+    @NotBlank
     private Long unidId;
 
     public LotacaoDTO() {

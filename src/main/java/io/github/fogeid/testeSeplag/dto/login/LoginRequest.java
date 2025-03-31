@@ -1,7 +1,12 @@
 package io.github.fogeid.testeSeplag.dto.login;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class LoginRequest {
+    @NotBlank
     private String username;
+
+    @NotBlank
     private String password;
 
     public String getUsername() {

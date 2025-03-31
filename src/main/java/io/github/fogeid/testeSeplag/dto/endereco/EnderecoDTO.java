@@ -6,6 +6,7 @@ import io.github.fogeid.testeSeplag.entities.Unidade;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -19,10 +20,20 @@ public class EnderecoDTO implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long endId;
+
+    @NotBlank
     private String endTipoLogradouro;
+
+    @NotBlank
     private String endLogradouro;
+
+    @NotBlank
     private Integer endNumero;
+
+    @NotBlank
     private String endBairro;
+
+    @NotBlank
     private Long cidId;
     private Set<Long> pessoas = new HashSet<>();
     private Set<Long> unidades = new HashSet<>();

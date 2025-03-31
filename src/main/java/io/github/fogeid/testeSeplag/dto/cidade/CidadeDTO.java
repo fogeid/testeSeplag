@@ -4,6 +4,7 @@ import io.github.fogeid.testeSeplag.entities.Cidade;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serializable;
 
@@ -14,8 +15,10 @@ public class CidadeDTO implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cidId;
 
+    @NotBlank
     private String cidNome;
 
+    @NotBlank
     private String cidUf;
 
     public CidadeDTO() {

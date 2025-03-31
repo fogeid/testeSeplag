@@ -9,6 +9,7 @@ import io.github.fogeid.testeSeplag.entities.Pessoa;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -24,10 +25,20 @@ public class PessoaDTO implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pesId;
+
+    @NotBlank
     private String pesNome;
+
+    @NotBlank
     private LocalDate pesDataNascimento;
+
+    @NotBlank
     private String pesSexo;
+
+    @NotBlank
     private String pesMae;
+
+    @NotBlank
     private String pesPai;
     private List<FotoPessoaDTO> fotos = new ArrayList<>(); // Usar DTO em vez de entidade
     private Set<EnderecoDTO> enderecos = new HashSet<>(); // Usar DTO em vez de entidade

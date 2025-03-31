@@ -4,6 +4,7 @@ import io.github.fogeid.testeSeplag.entities.FotoPessoa;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -14,13 +15,16 @@ public class FotoPessoaDTO implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long fpId;
-
+    @NotBlank
     private LocalDate fpData;
 
+    @NotBlank
     private String fpBucket;
 
+    @NotBlank
     private String fpHash;
 
+    @NotBlank
     private Long pessoa;
 
     public FotoPessoaDTO() {
