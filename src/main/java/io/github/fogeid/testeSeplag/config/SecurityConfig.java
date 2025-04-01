@@ -3,7 +3,6 @@ package io.github.fogeid.testeSeplag.config;
 import io.github.fogeid.testeSeplag.security.JwtAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,44 +18,48 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private static final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        log.info("Configurando SecurityFilterChain...");
-        http
-                .csrf(csrf -> {
-                    log.info("Desativando CSRF...");
-                    csrf.disable();
-                })
-                .sessionManagement(session -> {
-                    log.info("Configurando sessão como stateless...");
-                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-                })
-                .authorizeHttpRequests(auth -> {
-                    log.info("Configurando regras de autorização...");
-                    auth
-                            .requestMatchers("/api/auth/**").permitAll()
-                            .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                            .requestMatchers("/fotos/**").hasAnyRole("USER", "ADMIN")
-                            .anyRequest().authenticated();
-                })
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
-        log.info("SecurityFilterChain configurado com sucesso.");
-        return http.build();
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        logger.info("Configurando SecurityFilterChain...");
+
+        logger.info("Desativando CSRF...");
+        http.csrf(csrf -> csrf.disable());
+
+        logger.info("Configurando sessão como stateless...");
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        logger.info("Configurando regras de autorização...");
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/auth/login").permitAll()
+                .requestMatchers("/api/auth/refresh").permitAll()
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .requestMatchers("/pessoas/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/fotos-pessoa/**").hasAnyRole("USER", "ADMIN")
+                .anyRequest().authenticated()
+        );
+
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        logger.info("SecurityFilterChain configurado com sucesso.");
+        return http.build();
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        logger.info("Criando bean PasswordEncoder (BCryptPasswordEncoder)...");
+        return new BCryptPasswordEncoder();
     }
 }

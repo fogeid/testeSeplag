@@ -1,17 +1,19 @@
 package io.github.fogeid.testeSeplag.dto.login;
 
+import java.util.Map;
+
 public class LoginResponse {
-    private String token;
+    private Map<String, String> tokens;
 
-    public LoginResponse(String token) {
-        this.token = token;
+    public LoginResponse(Map<String, String> tokens) {
+        this.tokens = tokens;
     }
 
-    public String getToken() {
-        return token;
+    public Map<String, String> getTokens() {
+        return tokens;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setTokens(Map<String, String> tokens) {
+        this.tokens = tokens;
     }
 }
