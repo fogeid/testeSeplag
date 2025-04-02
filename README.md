@@ -3,8 +3,11 @@
 Bem-vindo ao **TesteSeplag**, um projeto desenvolvido como parte do processo seletivo da SeplagMT. Esta aplicação é uma API RESTful construída com **Spring Boot**, que gerencia informações de pessoas, servidores e fotos, utilizando um banco de dados **PostgreSQL** e o **MinIO** para armazenamento de objetos (fotos). A autenticação é feita com **JWT**, e a documentação da API está disponível via **Swagger**.  
 
 ### Dados de Inscrição
+Processo Seletivo: PSS 02/2025/SEPLAG (Analista de TI, Perfil Junior, Pleno e Sênior)
+Inscrição 1 DESENVOLVEDOR JAVA (BACK-END) - Sênior: 9133
+Inscrição 2 DESENVOLVEDOR JAVA (BACK-END) - Plano: 9135
+Inscrição 3 DESENVOLVEDOR FULL STACK - Sênior: 9138
 Nome: Diego Fernando Batista Silva  
-CPF: 051.152.121-96
 
 ## 📋 Visão Geral
 
